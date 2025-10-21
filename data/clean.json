@@ -1,0 +1,61 @@
+{
+  "cleaned_at": "2025-10-21T13:10:54.493Z",
+  "count": 5,
+  "items": [
+    {
+      "id": "https://www.agence-centrale-de-choisy.fr/location/94-val-de-marne/1-choisy-le-roi/15-garage/4163-choisy-le-roi-centre-ville-box-ferme-securise/",
+      "url": "https://www.agence-centrale-de-choisy.fr/location/94-val-de-marne/1-choisy-le-roi/15-garage/4163-choisy-le-roi-centre-ville-box-ferme-securise/",
+      "title": "CHOISY LE ROI - CENTRE VILLE - BOX FERME SECURISE",
+      "location": null,
+      "price_eur": 110,
+      "surface_m2": null,
+      "rooms": null,
+      "posted_at": null,
+      "price_per_m2": null
+    },
+    {
+      "id": "https://www.agence-centrale-de-choisy.fr/location/94-val-de-marne/1-choisy-le-roi/2-appartement/t3/3169-choisy-le-roi-gondoles-sud-f3-47-m2/",
+      "url": "https://www.agence-centrale-de-choisy.fr/location/94-val-de-marne/1-choisy-le-roi/2-appartement/t3/3169-choisy-le-roi-gondoles-sud-f3-47-m2/",
+      "title": "CHOISY LE ROI - GONDOLES SUD - F3 - 47 M2",
+      "location": null,
+      "price_eur": 807.58,
+      "surface_m2": 46.69,
+      "rooms": 3,
+      "posted_at": null,
+      "price_per_m2": 17
+    },
+    {
+      "id": "https://www.agence-centrale-de-choisy.fr/location/94-val-de-marne/1-choisy-le-roi/2-appartement/t2/2356-choisy-le-roi-gondoles-f2-36-m2/",
+      "url": "https://www.agence-centrale-de-choisy.fr/location/94-val-de-marne/1-choisy-le-roi/2-appartement/t2/2356-choisy-le-roi-gondoles-f2-36-m2/",
+      "title": "CHOISY LE ROI - GONDOLES - F2 - 36 M2",
+      "location": null,
+      "price_eur": 765,
+      "surface_m2": 36.08,
+      "rooms": 2,
+      "posted_at": null,
+      "price_per_m2": 21
+    },
+    {
+      "id": "https://www.agence-centrale-de-choisy.fr/location/94-val-de-marne/1-choisy-le-roi/2-appartement/t3/1680-choisy-le-roi-limite-orly-f3-45-m2/",
+      "url": "https://www.agence-centrale-de-choisy.fr/location/94-val-de-marne/1-choisy-le-roi/2-appartement/t3/1680-choisy-le-roi-limite-orly-f3-45-m2/",
+      "title": "CHOISY LE ROI - LIMITE ORLY - F3 - 45 M2",
+      "location": "orly",
+      "price_eur": 830,
+      "surface_m2": 44.47,
+      "rooms": 3,
+      "posted_at": null,
+      "price_per_m2": 19
+    },
+    {
+      "id": "https://www.agence-centrale-de-choisy.fr/location/94-val-de-marne/5-orly/2-appartement/t2/685-orly-gare-f2-48-m2/",
+      "url": "https://www.agence-centrale-de-choisy.fr/location/94-val-de-marne/5-orly/2-appartement/t2/685-orly-gare-f2-48-m2/",
+      "title": "ORLY - GARE - F2 - 48 M2",
+      "location": "Orly",
+      "price_eur": 795,
+      "surface_m2": 48.34,
+      "rooms": 2,
+      "posted_at": null,
+      "price_per_m2": 16
+    }
+  ]
+}
