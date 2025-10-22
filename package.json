@@ -4,12 +4,29 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "scrape": "node scripts/scrape.js"
+    "scrape": "node scripts/scrape.js",
+    "clean": "node scripts/clean.js",
+    "pipeline": "npm run scrape && npm run clean",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 5173"
   },
   "dependencies": {
     "axios": "^1.7.7",
     "cheerio": "^1.0.0",
     "date-fns": "^4.1.0",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "papaparse": "^5.5.3",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "recharts": "^3.3.0"
+  },
+  "devDependencies": {
+    "@types/papaparse": "^5.3.16",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@vitejs/plugin-react": "^5.0.4",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.11"
   }
 }

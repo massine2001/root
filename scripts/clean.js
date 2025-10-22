@@ -1,70 +1,66 @@
-import { readFile, writeFile, mkdir } from "fs/promises";
-import { join } from "path";
+import { readFile, writeFile, mkdir } from 'fs/promises';
+import { join } from 'path';
 
-function cleanRecord(r) {
-  const id = String(r.id ?? "").trim();
-  const url = String(r.url ?? "").trim();
-  const title = r.title ? String(r.title).trim() : null;
-  const location = r.location ? String(r.location).trim() : null;
+function toNumber(x) {
+  if (x === null || x === undefined) return null;
+  const s = String(x).replace(/\u00A0/g, ' ').replace(/[^\d.,-]/g, '').trim();
+  if (!s) return null;
+  const t = s.includes(',') && s.includes('.') ? s.replace(/\./g, '').replace(',', '.') :
+            s.includes(',') && !s.includes('.') ? s.replace(',', '.') : s;
+  const n = Number(t);
+  return Number.isFinite(n) ? n : null;
+}
 
-  const price_eur =
-    typeof r.price_eur === "number" && r.price_eur > 0 ? r.price_eur : null;
-  const surface_m2 =
-    typeof r.surface_m2 === "number" && r.surface_m2 > 0 ? r.surface_m2 : null;
-  const rooms =
-    typeof r.rooms === "number" && r.rooms > 0 ? r.rooms : null;
+function normalize(rec) {
+  const id = String(rec.id || rec.url || '').trim();
+  const url = String(rec.url || '').trim();
+  const title = rec.title ? String(rec.title).trim() : null;
+  const location = rec.location ? String(rec.location).trim() : null;
+  const price_eur = toNumber(rec.price_eur);
+  const surface_m2 = toNumber(rec.surface_m2);
+  const rooms = toNumber(rec.rooms) ? Number.parseInt(toNumber(rec.rooms)) : null;
+  const posted_at = rec.posted_at && String(rec.posted_at).trim() ? String(rec.posted_at).trim() : null;
 
-  const posted_at = r.posted_at ? new Date(r.posted_at).toISOString() : null;
+  const price_per_m2 = price_eur && surface_m2 && surface_m2 > 0 ? Number((price_eur / surface_m2).toFixed(2)) : null;
 
-  let price_per_m2 = null;
-  if (price_eur && surface_m2 && surface_m2 > 0) {
-    price_per_m2 = Math.round(price_eur / surface_m2);
-  }
+  return { id, url, title, location, price_eur, surface_m2, rooms, posted_at, price_per_m2 };
+}
 
-  return {
-    id,
-    url,
-    title,
-    location,
-    price_eur,
-    surface_m2,
-    rooms,
-    posted_at,
-    price_per_m2
+function toCsv(rows) {
+  const headers = ['id','url','title','location','price_eur','surface_m2','rooms','posted_at','price_per_m2'];
+  const esc = (v) => {
+    if (v === null || v === undefined) return '';
+    const s = String(v);
+    return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   };
+  const lines = [headers.join(',')];
+  for (const r of rows) lines.push(headers.map(h => esc(r[h])).join(','));
+  return lines.join('\n');
 }
 
 async function main() {
-  const inPath = join("data", "raw.json");
-  const outPath = join("data", "clean.json");
+  const rawPath = join('data', 'raw.json');
+  const buf = await readFile(rawPath, 'utf8');
+  const raw = JSON.parse(buf);
 
-  const rawText = await readFile(inPath, "utf8");
-  const rawData = JSON.parse(rawText);
+  const seen = new Set();
+  const cleaned = [];
+  for (const it of raw.items || []) {
+    const n = normalize(it);
+    if (!n.id || !n.url) continue;
+    if (seen.has(n.id)) continue;
+    seen.add(n.id);
+    cleaned.push(n);
+  }
 
-  const cleanedItems = (rawData.items || []).map(cleanRecord);
+  await mkdir('data', { recursive: true });
+  const outCsv = join('data', 'dataset.csv');
+  await writeFile(outCsv, toCsv(cleaned), 'utf8');
 
-  await mkdir("data", { recursive: true });
-
-  await writeFile(
-    outPath,
-    JSON.stringify(
-      {
-        cleaned_at: new Date().toISOString(),
-        count: cleanedItems.length,
-        items: cleanedItems
-      },
-      null,
-      2
-    ),
-    "utf8"
-  );
-
-  console.log(`Nettoyage terminé (${cleanedItems.length} annonces)`);
-  console.log(`Fichier généré : ${outPath}`);
+  console.log(`OK -> ${outCsv} (${cleaned.length} lignes)`);
 }
 
-main().catch((err) => {
-  console.error("Erreur :", err);
+main().catch((e) => {
+  console.error(e);
   process.exit(1);
 });
-

@@ -8,9 +8,10 @@ const startUrls = (process.env.LISTING_START_URLS || '')
   .split(',')
   .map(s => s.trim())
   .filter(Boolean);
-
+ 
 if (startUrls.length === 0) {
-  process.exit(1);
+  console.warn('No LISTING_START_URLS provided in environment; skipping live scraping. See .env.example for examples.');
+  process.exit(0);
 }
 
 const UA =
