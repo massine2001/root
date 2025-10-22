@@ -1,0 +1,27 @@
+name: pipeline
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * *"
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - name: Scrape
+        run: npm run scrape
+        env:
+          LISTING_START_URLS: ${{ secrets.LISTING_START_URLS }}
+      - name: Clean
+        run: npm run clean
+      - name: Commit CSV if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/dataset.csv data/raw.json
+          git diff --staged --quiet && echo "No changes" || (git commit -m "chore: update dataset.csv [skip ci]" && git push)
