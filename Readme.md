@@ -1,51 +1,62 @@
 # Projet LDF – Pipeline de Données & Dashboard Immobilier
 
-## Description
-Ce projet a pour objectif de concevoir une chaîne complète de traitement et d’analyse de données immobilières (“pipeline de données”), et de les visualiser à travers un **dashboard interactif en React**.
+## Description Générale
 
-Le pipeline collecte les données, les nettoie et calcule différents indicateurs (prix au m², répartition des surfaces, évolution temporelle, etc.), puis expose ces informations à travers une API REST consultée par le frontend.
+Ce projet met en place un **pipeline de données automatisé** pour la collecte, le nettoyage, la validation et la visualisation d’annonces immobilières.  
+Il a pour objectif d’**industrialiser le traitement de données** en combinant un backend Node.js et un frontend React.
 
----
-
-## Fonctionnalités
-- Extraction automatique des données immobilières (API ou CSV)
-- Calcul de statistiques : médiane, histogrammes, séries temporelles
-- API REST (`/api/dataset`, `/api/summary`)
-- Dashboard React interactif (graphiques et tableau)
-- Visualisation avec **Recharts**
-- Mise en page moderne et responsive
+Le pipeline est **automatisé via GitHub Actions** : il s’exécute chaque jour à 6h (UTC), met à jour le dataset (`data/dataset.csv`), puis le dashboard React consomme automatiquement ces nouvelles données pour générer les visualisations.
 
 ---
 
-## Stack technique
+## Objectifs du Projet
 
-### Backend
-- Node.js / Express
-- Papaparse / csv-parser
-- Math.js
-- Axios / fetch
-- (Optionnel) PostgreSQL
-
-### Frontend
-- React + Vite
+- Automatiser la **collecte quotidienne** des annonces immobilières.  
+- Nettoyer et formater les données pour obtenir un **CSV exploitable**.  
+- Valider les données afin de garantir leur cohérence.  
+- Alimenter un **dashboard React** pour visualiser les tendances du marché.  
+- Mettre en place une **intégration continue (CI/CD)** via GitHub Actions.
 
 ---
 
-## Installation & Exécution
+## Architecture Globale
 
-### Prérequis
-- Node.js ≥ 20
-- npm ≥ 10
+### Vue d’ensemble du pipeline
 
-### Étapes
-```bash
-# 1. Cloner le dépôt
-git clone https://github.com/ton-utilisateur/ldf-dashboard.git
-cd ldf-dashboard
+[ Scraping ] → [ Nettoyage / Transformation ] → [ Validation ] → [ Commit GitHub ]
+↓
+[ Dashboard React ]
 
-# 2. Installer les dépendances
-npm install
 
-# 3. Lancer le mode développement
-npm run dev
+- **Scraping :** extraction automatique d’annonces immobilières depuis une liste d’URLs.  
+- **Nettoyage :** conversion, normalisation et enrichissement des données (prix/m², surface, etc.).  
+- **Validation :** vérifie la structure et la cohérence du CSV généré.  
+- **Commit automatique :** met à jour `data/dataset.csv` dans le dépôt GitHub.  
+- **Dashboard React :** consomme le CSV ou l’API pour afficher les graphiques.
 
+---
+
+## Structure du Projet
+
+root/
+├── .github/
+│ └── workflows/
+│ └── data-pipeline.yml # Workflow GitHub Actions (pipeline automatisé)
+├── api/
+│ └── dataset.js # Endpoint Serverless (Vercel)
+├── data/
+│ ├── raw.json # Données brutes issues du scraping
+│ ├── clean.json # Données nettoyées (intermédiaire)
+│ └── dataset.csv # Données finales utilisées par le dashboard
+├── scripts/
+│ ├── scrape.js # Lance le scraping
+│ ├── clean.js # Nettoie les données
+│ ├── validate.js # Valide le CSV final
+│ └── preview_api.js # Test API local
+├── src/
+│ ├── App.tsx # Tableau de bord React
+│ ├── main.tsx # Point d’entrée React
+│ └── lib/loadCsv.ts # Utilitaire de chargement CSV
+├── package.json # Dépendances & commandes npm
+├── vite.config.ts # Configuration du frontend
+└── README.md
