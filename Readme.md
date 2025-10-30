@@ -3,9 +3,11 @@
 ## Description Générale
 
 Ce projet met en place un **pipeline de données automatisé** pour la collecte, le nettoyage, la validation et la visualisation d’annonces immobilières.  
-Il a pour objectif d’**industrialiser le traitement de données** en combinant un backend Node.js et un frontend React.
+Il scrape des annonces depuis le web, transforme les données brutes en CSV propre, puis alimente un **dashboard React** permettant de visualiser les tendances (prix/m², surface, évolution temporelle, etc.).
 
 Le pipeline est **automatisé via GitHub Actions** : il s’exécute chaque jour à 6h (UTC), met à jour le dataset (`data/dataset.csv`), puis le dashboard React consomme automatiquement ces nouvelles données pour générer les visualisations.
+
+Lien vers le dashboard en ligne : https://ldf.vercel.app/
 
 ---
 
@@ -22,19 +24,18 @@ Le pipeline est **automatisé via GitHub Actions** : il s’exécute chaque jour
 ## Architecture Globale
 
 ### Vue d’ensemble du pipeline
-
+```
 [ Scraping ] → [ Nettoyage / Transformation ] → [ Validation ] → [ Commit GitHub ]
 ↓
 [ Dashboard React ]
-
+``
 
 - **Scraping :** extraction automatique d’annonces immobilières depuis une liste d’URLs.  
 - **Nettoyage :** conversion, normalisation et enrichissement des données (prix/m², surface, etc.).  
 - **Validation :** vérifie la structure et la cohérence du CSV généré.  
 - **Commit automatique :** met à jour `data/dataset.csv` dans le dépôt GitHub.  
 - **Dashboard React :** consomme le CSV ou l’API pour afficher les graphiques.
-
----
+```
 ## Installation & Exécution
 
 ### Prérequis
@@ -44,28 +45,39 @@ Le pipeline est **automatisé via GitHub Actions** : il s’exécute chaque jour
 ### Étapes
 ```bash
 # 1. Cloner le dépôt
-git clone https://github.com/ton-utilisateur/ldf-dashboard.git
-cd ldf-dashboard
+git https://github.com/massine2001/root.git
+cd root
 
 # 2. Installer les dépendances
 npm install
 
 # 3. Lancer le mode développement
 npm run dev
-
+```
 ## Commandes utiles (local)
-
-- Installer :
+```bash
+# Installer :
 npm ci
 
-- Lancer le scraper puis le nettoyeur (pipeline local) :
+# Lancer le scraper puis le nettoyeur (pipeline local) :
 npm run pipeline
 
-- Valider le CSV (local) :
+# Valider le CSV (local) :
 node scripts/validate.js
 
-- Tester l'API localement :
+# Tester l'API localement :
 node scripts/preview_api.js
 
-- Lancer l'application en mode développement (Vite) :
+# Lancer l'application en mode développement (Vite) :
 npm run dev
+```
+
+## Fonctionnalités du Dashboard
+- Histogramme du **prix/m²**.  
+- Distribution des **surfaces**.  
+- Évolution temporelle des prix.  
+- Tableau de données (Prix, surface et ville).
+
+Le dashboard est développé en **React + TypeScript + Vite**, avec **PapaParse** pour le chargement CSV et **Recharts** pour la visualisation.
+
+
