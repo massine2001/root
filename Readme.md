@@ -36,27 +36,6 @@ Le pipeline est **automatisé via GitHub Actions** : il s’exécute chaque jour
 
 ---
 
-## Structure du Projet
-
-root/
-├── .github/
-│ └── workflows/
-│ └── data-pipeline.yml # Workflow GitHub Actions (pipeline automatisé)
-├── api/
-│ └── dataset.js # Endpoint Serverless (Vercel)
-├── data/
-│ ├── raw.json # Données brutes issues du scraping
-│ ├── clean.json # Données nettoyées (intermédiaire)
-│ └── dataset.csv # Données finales utilisées par le dashboard
-├── scripts/
-│ ├── scrape.js # Lance le scraping
-│ ├── clean.js # Nettoie les données
-│ ├── validate.js # Valide le CSV final
-│ └── preview_api.js # Test API local
-├── src/
-│ ├── App.tsx # Tableau de bord React
-│ ├── main.tsx # Point d’entrée React
-│ └── lib/loadCsv.ts # Utilitaire de chargement CSV
-├── package.json # Dépendances & commandes npm
-├── vite.config.ts # Configuration du frontend
-└── README.md
+## Versions 
+    - *NodeJs :* 18
+    - *React :* 19.2.0
