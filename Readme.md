@@ -35,7 +35,37 @@ Le pipeline est **automatisé via GitHub Actions** : il s’exécute chaque jour
 - **Dashboard React :** consomme le CSV ou l’API pour afficher les graphiques.
 
 ---
+## Installation & Exécution
 
-## Versions 
-    - *NodeJs :* 18
-    - *React :* 19.2.0
+### Prérequis
+- Node.js ≥ 20
+- npm ≥ 10
+
+### Étapes
+```bash
+# 1. Cloner le dépôt
+git clone https://github.com/ton-utilisateur/ldf-dashboard.git
+cd ldf-dashboard
+
+# 2. Installer les dépendances
+npm install
+
+# 3. Lancer le mode développement
+npm run dev
+
+## Commandes utiles (local)
+
+- Installer :
+npm ci
+
+- Lancer le scraper puis le nettoyeur (pipeline local) :
+npm run pipeline
+
+- Valider le CSV (local) :
+node scripts/validate.js
+
+- Tester l'API localement :
+node scripts/preview_api.js
+
+- Lancer l'application en mode développement (Vite) :
+npm run dev
