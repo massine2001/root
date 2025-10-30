@@ -78,6 +78,6 @@ npm run dev
 - Évolution temporelle des prix.  
 - Tableau de données (Prix, surface et ville).
 
-Le dashboard est développé en **React + TypeScript + Vite**, avec **PapaParse** pour le chargement CSV et **Recharts** pour la visualisation.
+Le dashboard est développé en **React**.
 
 
